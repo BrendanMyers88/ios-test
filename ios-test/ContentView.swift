@@ -85,7 +85,7 @@ struct ContentView: View {
 }
 
 struct CardView: View {
-    var isFaceUp: Bool = false
+    @State var isFaceUp = false
 
     @State private var gifURL: URL = {
             guard let url = Bundle.main.url(forResource: "dat_boi", withExtension: "gif") else {
@@ -96,18 +96,19 @@ struct CardView: View {
 
     var body: some View {
         ZStack {
+            let base = RoundedRectangle(cornerRadius: 12)
+
             if isFaceUp {
-                RoundedRectangle(cornerRadius: 12)
-                    .opacity(0)
-                RoundedRectangle(cornerRadius: 12)
-                    .strokeBorder(lineWidth: 2)
+                base.opacity(0.2)
+                base.strokeBorder(lineWidth: 2)
                 
                 AnimatedGifView(url: $gifURL)
             } else {
-                RoundedRectangle(cornerRadius: 12)
-                RoundedRectangle(cornerRadius: 12)
-                    .strokeBorder(lineWidth: 2)
+                base
+                base.strokeBorder(lineWidth: 2)
             }
+        }.onTapGesture {
+            isFaceUp.toggle()
         }
     }
 }
